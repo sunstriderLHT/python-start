@@ -48,5 +48,6 @@ class Ship():
         
         self.screen.blit(self.image,self.rect) #根据self.rect指定的位置将图像绘制到屏幕上
         
-
-#在pygame中原点位于左上角
+    def center_ship(self):
+        
+        self.center = self.screen_rect.centerx

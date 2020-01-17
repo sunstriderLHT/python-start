@@ -11,7 +11,7 @@ from settings import Settings
 from ship import Ship
 import game_function as gf
 from pygame.sprite import Group
-
+from game_stats import GameStats
 
 def run_game():
     #初始化背景设置并创建一个指定大小的显示窗口
@@ -31,13 +31,17 @@ def run_game():
     #创建外星人
     gf.create_fleet(ai_settings,screen,ship,aliens)
     
+    stats = GameStats(ai_settings)
+    
     
     while True:
         
         gf.check_events(ai_settings,screen,ship,bullets)      
         ship.update()    
-        gf.update_bullets(aliens,bullets)
-        gf.update_aliens(ai_settings,aliens)
+        gf.check_bullet_alien_collisions(ai_settings,screen,ship,aliens,bullets)
+        gf.update_bullets(ai_settings,screen,ship,aliens,bullets)
+        
+        gf.update_aliens(ai_settings,stats,screen,ship,aliens,bullets)
         gf.update_screen(ai_settings,screen,ship,aliens,bullets) 
         
         

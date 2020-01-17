@@ -6,6 +6,8 @@ Created on Wed Jan 15 16:14:03 2020
 """
 import sys
 
+from time import sleep
+
 import pygame
 
 from bullet import Bullet
@@ -23,7 +25,6 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         ship.moving_down = True 
     elif event.key ==pygame.K_SPACE:
         #创建一颗子弹，并将其加入到编组bullets中
-        
         fire_bullet(ai_settings,screen,ship,bullets)
         
 
@@ -55,15 +56,17 @@ def fire_bullet(ai_settings,screen,ship,bullets):
         new_bullet = Bullet(ai_settings,screen,ship)
         bullets.add(new_bullet)
 
-def update_bullets(aliens,bullets):
+def update_bullets(ai_settings,screen,ship,aliens,bullets):
     
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <=0:
             bullets.remove(bullet)
+def check_bullet_alien_collisions(ai_settings,screen,ship,aliens,bullets):    
     collisions = pygame.sprite.groupcollide(bullets,aliens,False,True)
     if len(aliens) == 0:
-        
+        bullets.empty()
+        create_fleet(ai_settings,screen,ship,aliens)
             
 def get_number_aliens_x(ai_settings,alien_width):
     available_space_x = ai_settings.screen_width - 2 * alien_width #统计可放置外星人的水平空间
@@ -103,9 +106,11 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 
-def update_aliens(ai_settings, aliens):
+def update_aliens(ai_settings,stats,screen, ship, aliens,bullets):
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
+    if pygame.sprite.spritecollideany(ship,aliens):
+        ship_hit(ai_settings,stats,screen, ship, aliens,bullets)
     
 def update_screen(ai_settings,screen,ship,aliens,bullets):
         screen.fill(ai_settings.bg_color)  #以背景色填充屏幕
@@ -117,3 +122,36 @@ def update_screen(ai_settings,screen,ship,aliens,bullets):
         ship.blitme()
         aliens.draw(screen)
         pygame.display.flip()
+        
+def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
+    
+    stats.ship_left -=1
+    
+    aliens.empty()
+    bullets.empty()
+    
+    create_fleet(ai_settings,screen,ship,aliens)
+    ship.center_ship()
+    
+    sleep(0.5)
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
