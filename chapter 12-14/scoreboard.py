@@ -17,7 +17,7 @@ class Scoreboard():
         self.screen_rect = screen.get_rect()
         self.ai_settings = ai_settings
         self.stats = stats
-        
+        self.read_high_score()
         #显示得分信息时使用的字体设置
         self.text_color = (30,30,30)
         self.font = pygame.font.SysFont(None,48)
@@ -27,8 +27,14 @@ class Scoreboard():
         self.prep_level()
         self.prep_ships()
         
+    def read_high_score(self):
+        filename = 'high_score'
+        with open(filename,'r') as f_obj:
+            self.stats.high_score = f_obj.read()
+
     def prep_high_score(self):
-        high_score = int(round(self.stats.high_score,-1))
+        
+        high_score = int(self.stats.high_score)
         high_score_str = "{:,}".format(high_score)
         self.high_score_image = self.font.render(high_score_str,True,self.text_color,self.ai_settings.bg_color)
         
@@ -60,7 +66,7 @@ class Scoreboard():
         #创建一个空编组，用于存储飞船实例
         self.ships = Group()
         #根据玩家还有多少艘飞船运行一个循环相应的次数，在这个循环中，创建新飞船并设这起坐标使整个飞船飞船编组位于屏幕左边
-        for ship_number in range(self.stats.ships_left):
+        for ship_number in range(self.stats.ship_left):
             ship = Ship(self.ai_settings,self.screen)
             ship.rect.x = 10 + ship_number * ship.rect.width
             ship.rect.y =10
@@ -72,4 +78,6 @@ class Scoreboard():
         self.screen.blit(self.score_image,self.score_rect)
         self.screen.blit(self.high_score_image,self.high_score_rect)
         self.screen.blit(self.level_image,self.level_rect)
-        self.screem.blit(self.)
+        self.screen.blit(self.level_image,self.level_rect)
+        
+        self.ships.draw(self.screen)
