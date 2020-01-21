@@ -6,11 +6,13 @@ Created on Wed Jan 15 17:26:00 2020
 """
 
 import pygame 
+from pygame.sprite import Sprite
 
-class Ship():
+class Ship(Sprite):
     
     def __init__(self,ai_settings,screen):
         #初始化飞船并设置其初始化位置
+        super().__init__()
         self.screen = screen
         self.ai_settings = ai_settings
         #加载飞船图像并获取其外接矩形
@@ -50,4 +52,6 @@ class Ship():
         
     def center_ship(self):
         
-        self.center = self.screen_rect.centerx
+        self.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
+        self.centery = float(self.rect.centery)
