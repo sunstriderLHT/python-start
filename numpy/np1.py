@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-"""
+'''
 Created on Mon Jan 27 11:05:22 2020
 
 @author: Harry
-"""
+'''
 
 import numpy as np 
-'''
+
 array = np.array([[1,2,3],
                   [2,3,4]])
 
@@ -51,7 +51,7 @@ c = 10*np.tan(a)
 print(c)
 print(b<3)#判断b中元素的数量关系
 print('*'*40)
-'''
+
 a = np.array([[1,1],
              [0,1]])
 b = np.arange(4).reshape((2,2))
