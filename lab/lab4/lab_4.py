@@ -70,8 +70,9 @@ def backwards_diary():
 def main():
     birthstone() 
     cipher()
+    print("\nIf I did not know the key, I would try 1-26 as key to decrypt")
     message_n =input("Please enter the message you want to encrypted: ")
     print(reverse(message_n))
-    
+    backwards_diary()
 main()
 
